@@ -1,0 +1,18 @@
+
+---
+- hosts: raspberrypi
+  user: pi
+  sudo: yes
+  tasks:
+
+    - name: install puredata
+      apt: name=puredata state=present update_cache=yes
+
+    - name: copy rc.local to configure boot to start puredata
+      copy: src=./files/rc.local dest=/etc/rc.local owner=root mode=0755
+
+    - name: copy the puredata launcher
+      copy: src=./files/start_pd.sh dest=/home/pi/start_pd.sh owner=pi mode=0755
+
+    - name: copy the midifilter program
+      copy: src=./files/midifilter.pd dest=/home/pi/midifilter owner=pi mode=0755
